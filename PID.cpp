@@ -159,7 +159,7 @@ float PID::_derivative(){
     static float cumulated_sum = 0;
     float d_output = 0;
     if(_is_filter_enabled){
-        d_output = _cut_off_frequency - cumulated_sum;
+        d_output = (_error - cumulated_sum) * _cut_off_frequency;
         cumulated_sum += d_output;
         return _kd * d_output;
     }
