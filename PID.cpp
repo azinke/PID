@@ -26,7 +26,9 @@ PID::PID(float kp, float ki, float kd){
     _cumulated_error = 0.0;
     
     _is_clamping_enabled = true;
-    setLimits(0, 255);     // Default limits based on Arduino µC
+    setLimits(0, 255);      // Default limits based on Arduino µC
+    enableFilter(true);     // enable internal filter
+    setCufOffFrequency(40); // set internal derivative filter
 }
 
 /**
