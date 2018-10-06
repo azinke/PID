@@ -35,7 +35,7 @@ class PID{
         void enableFilter(bool enable);
         void setFilterCutOffFrequency(unsigned int cut_off);    // cut_off in rad/s
         
-        
+        void setSamplingTime(unsigned long sampling_time);        
     private:
         /* Attributes */
         

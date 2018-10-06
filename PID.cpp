@@ -27,9 +27,10 @@ PID::PID(float kp, float ki, float kd){
     
     _is_clamping_enabled = true;
     setLimits(0, 255);      // Default limits based on Arduino µC
-    enableFilter(true);     // enable internal filter
-    setCufOffFrequency(40); // set internal derivative filter
+    enableFilter(false);     // enable internal filter
+    // setFilterCutOffFrequency(30); // set internal derivative filter
     
+    _sampling_time = 1;    // 1ms - Fe = 1kHz
     _time = millis();   // update internal time
 }
 
@@ -220,6 +221,7 @@ float PID::getOutput(float measured_output = 0){
         if(_kd != 0){ _output += _derivative(); }
         _error = _set_point - measured_output;
         _last_error = _error;   // update last error
+        _time = millis();       // udate internal time
     }
     #ifdef DEBUG
         Serial.println("error: " + String(_error));
@@ -237,4 +239,21 @@ float PID::getOutput(float measured_output = 0){
 */
 void PID::enableClamping(bool enable){
     _is_clamping_enabled = enable;
+}
+
+/**
+    function: setSamplingTime
+    @summary: set the sampling time to compute new PID output. This will reduce 
+              computational load of the microcontroller
+    @parameter: 
+        sampling_time: sampling time
+    @return: none
+*/
+void PID::setSamplingTime(unsigned long new_sampling_time){
+    if(new_sampling_time <= 0) return;
+    float buffer = (new_sampling_time / _sampling_time);
+    _ki *= buffer;
+    _kd /= buffer;
+    _sampling_time = new_sampling_time;
+    
 }
