@@ -12,30 +12,47 @@
 #include <Arduino.h>
 #endif
 
+#define DEBUG
+
 class PID{
     public:
         PID(float kp, float ki, float kd);
         
-        void setKp();
-        void setKi();
-        void setKd();
+        void setKp(float kp);
+        void setKi(float ki);
+        void setKd(float kd);
         
-        float getOutput();
+        float getKp();
+        float getKi();
+        float getKd();
+        
+        void setPoint(float reference);    // set the desired output
+        void enableClamping(bool enable);
+        
+        float getOutput(float measured_output);
+        void setLimits(float min, float max);
         
     private:
         /* Attributes */
+        
+        /* PID Gains */
         float _kp;   // proportional gain
         float _ki;   // integral gain
         float _kd;   // derivative gain
+        
+        float _set_point;
+        
+        /* errors */
         float _error;
+        float _last_error;
+        double _cumulated_error;
         
         float _output;      // current output
-        float _last_output;
         
         float _max_output;   // maximum limit of the output
         float _min_output;   // minimum limit of the output
         
-        bool is_first_run;
+        bool _is_clamping_enabled;  // enable or disable clamping
         
         /* methods */
         float _proportional();
