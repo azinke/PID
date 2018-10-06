@@ -32,6 +32,10 @@ class PID{
         float getOutput(float measured_output);
         void setLimits(float min, float max);
         
+        void enableFilter(bool enable);
+        void setFilterCutOffFrequency(unsigned int cut_off);    // cut_off in rad/s
+        
+        
     private:
         /* Attributes */
         
@@ -48,11 +52,17 @@ class PID{
         double _cumulated_error;
         
         float _output;      // current output
+        float _clamping_output;
         
         float _max_output;   // maximum limit of the output
         float _min_output;   // minimum limit of the output
         
+        /* filter */
+        unsigned int _cut_off_frequency;
+        
+        /* status */
         bool _is_clamping_enabled;  // enable or disable clamping
+        bool _is_filter_enabled;
         
         /* methods */
         float _proportional();

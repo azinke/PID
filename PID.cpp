@@ -18,6 +18,9 @@ PID::PID(float kp, float ki, float kd){
     _max_output = 0.0;
     _min_output = 0.0;
     
+    _output = 0;
+    _clamping_output = 0;
+    
     _error = 0.0;
     _last_error = 0.0;
     _cumulated_error = 0.0;
@@ -76,7 +79,7 @@ void PID::setKd(float kd){
     @return:
         float: proportional gain
 */
-void PID::getKp(){
+float PID::getKp(){
     return _kp;
 }
 
@@ -87,7 +90,7 @@ void PID::getKp(){
     @return:
         float: integral gain
 */
-void PID::getKi(){
+float PID::getKi(){
     return _ki;
 }
 
@@ -98,7 +101,7 @@ void PID::getKi(){
     @return:
         float: proportional gain
 */
-void PID::getKd(){
+float PID::getKd(){
     return _kd;
 }
 
@@ -109,6 +112,7 @@ void PID::getKd(){
     @return: none
 */
 float PID::_proportional(){
+    if(_kp == 0) return 0;
     return _error * _kp;
 }
 
@@ -134,9 +138,10 @@ void PID::setLimits(float min, float max){
         float: output of the PID controller
 */
 float PID::_clamp(){
-    if(_output <= _min_output) return _min_output;
-    else if(_output >= _max_output) return _max_output;
-    else return _output;
+    if(_output <= _min_output) { _clamping_output = _min_output; }
+    else if(_output >= _max_output) { _clamping_output = _max_output; }
+    else { _clamping_output = _output; }
+    return _clamping_output;
 }
 
 
@@ -148,7 +153,37 @@ float PID::_clamp(){
         float: the derivative component of the PID controller
 */
 float PID::_derivative(){
-    return (_error - _last_error) * _kp;
+    if(_kd == 0) return 0;
+    static float cumulated_sum = 0;
+    float d_output = 0;
+    if(_is_filter_enabled){
+        d_output = _cut_off_frequency - cumulated_sum;
+        cumulated_sum += d_output;
+        return _kd * d_output;
+    }
+    return (_error - _last_error) * _kp; // if filter not enabled
+}
+
+/**
+    function: enableFilter
+    @summary: enable of disable the derivative branch filter
+    @parameter: 
+        enable: true or false to enable of disable filter
+    @return: none
+*/
+void PID::enableFilter(bool enable){
+    _is_filter_enabled = enable;
+}
+
+/**
+    function: setFilterCutOffFrequency
+    @summary: set the cut off frequency of the derivative filter
+    @parameter: 
+        cut_off: cut off frequency in rad/s
+    @return: none
+*/
+void PID::setFilterCutOffFrequency(unsigned int cut_off){
+    _cut_off_frequency = cut_off;
 }
 
 /**
@@ -158,6 +193,8 @@ float PID::_derivative(){
     @return: none
 */
 float PID::_integral(){
+    if(_ki == 0) return 0;
+    if( (_output != _clamping_output) && ((_error * _output) > 0) ){ return 0; }
     _cumulated_error += _error;
     #ifdef DEBUG
         Serial.println("cumulated error: " + String(_cumulated_error));
