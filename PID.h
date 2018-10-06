@@ -60,6 +60,10 @@ class PID{
         /* filter */
         unsigned int _cut_off_frequency;
         
+        /* sampling */
+        unsigned long _sampling_time;   // in ms
+        unsigned long _time;            // in ms
+        
         /* status */
         bool _is_clamping_enabled;  // enable or disable clamping
         bool _is_filter_enabled;

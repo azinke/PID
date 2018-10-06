@@ -29,6 +29,8 @@ PID::PID(float kp, float ki, float kd){
     setLimits(0, 255);      // Default limits based on Arduino µC
     enableFilter(true);     // enable internal filter
     setCufOffFrequency(40); // set internal derivative filter
+    
+    _time = millis();   // update internal time
 }
 
 /**
@@ -212,15 +214,16 @@ float PID::_integral(){
 */
 float PID::getOutput(float measured_output = 0){
     _output = 0;
-    if(_kp != 0){ _output += _proportional(); }
-    if(_ki != 0){ _output += _integral(); }
-    if(_kd != 0){ _output += _derivative(); }
-    
-    _error = _set_point - measured_output;
+    if((millis() - _time) >= _sampling_time){
+        if(_kp != 0){ _output += _proportional(); }
+        if(_ki != 0){ _output += _integral(); }
+        if(_kd != 0){ _output += _derivative(); }
+        _error = _set_point - measured_output;
+        _last_error = _error;   // update last error
+    }
     #ifdef DEBUG
         Serial.println("error: " + String(_error));
     #endif
-    _last_error = _error;   // update last error
     if(_is_clamping_enabled){ return _clamp(); }
     return _output;
 }
