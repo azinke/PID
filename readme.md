@@ -18,7 +18,7 @@ available and their description.
 |`float getKp()` | Get the kp gain of the controller
 |`float getKi()` | Get the ki gain of the controller
 |`float getKd()` | Get the kd gain of the controller
-|`void PID::setLimits(float min, float max)` | Set the saturation limits of the controller
+|`void PID::setLimits(float min, float max)` | Set the saturation limits of the controller's output
 |`float PID::getOutput(float measured_output = 0)`| Compute the output of the controller
 |`void PID::enableClamping(bool enable)`| Enable or disabe clamping
 
