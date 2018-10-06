@@ -1,6 +1,6 @@
 #include <PID.h>
 
-PID myPID(1, 0.5, 0.5);
+PID myPID(1, 0.5, 0.05);
 
 /* init variable */
 float set_point = 0.0;
