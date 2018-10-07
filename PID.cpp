@@ -256,3 +256,26 @@ void PID::setSamplingTime(unsigned long new_sampling_time){
     _kd /= buffer;
     _sampling_time = new_sampling_time;
 }
+
+/**
+    function: getError
+    @summary: get out the current error of the control loop
+    @parameter: none
+    @return:
+        float: the current error
+*/
+float PID::getError(){
+    return _error;
+}
+
+/**
+    function: getError
+    @summary: get out the accumulated error of the control loop since ever
+              This is equivalent to the integral of the error
+    @parameter: none
+    @return:
+        float: the current error
+*/
+float PID::getAccumulatedError(){
+    return _cumulated_error;
+}

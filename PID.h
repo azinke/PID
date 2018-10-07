@@ -26,6 +26,9 @@ class PID{
         float getKi();
         float getKd();
         
+        float getError();
+        float getAccumulatedError();
+        
         void setPoint(float reference);    // set the desired output
         void enableClamping(bool enable);
         
