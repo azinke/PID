@@ -1,0 +1,40 @@
+#######################################
+# Syntax Coloring Map PID
+# by Kenneth AMOUSSOU
+# github: @azinke
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+PID		KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+setKp   KEYWORD2
+setKi   KEYWORD2
+setKd   KEYWORD2
+
+getKp   KEYWORD2
+getKi   KEYWORD2
+getKd   KEYWORD2
+
+setPoint    KEYWORD2
+enableClamping  KEYWORD2
+
+getOutput   KEYWORD2
+setLimits   KEYWORD2
+
+enableFilter    KEYWORD2
+setFilterCutOffFrequency    KEYWORD2
+
+setSamplingTime       KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+#CM	LITERAL1	Constants
+#INC	LITERAL1	Constants
