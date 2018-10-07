@@ -166,7 +166,7 @@ float PID::_derivative(){
         cumulated_sum += d_output;
         return _kd * d_output;
     }
-    return (_error - _last_error) * _kp; // if filter not enabled
+    return (_error - _last_error) * _kd; // if filter not enabled
 }
 
 /**
@@ -255,5 +255,4 @@ void PID::setSamplingTime(unsigned long new_sampling_time){
     _ki *= buffer;
     _kd /= buffer;
     _sampling_time = new_sampling_time;
-    
 }
