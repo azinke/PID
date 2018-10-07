@@ -21,6 +21,9 @@ getKp   KEYWORD2
 getKi   KEYWORD2
 getKd   KEYWORD2
 
+getError    KEYWORD2
+getAccumulatedError     KEYWORD2
+
 setPoint    KEYWORD2
 enableClamping  KEYWORD2
 
