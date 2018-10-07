@@ -269,7 +269,7 @@ float PID::getError(){
 }
 
 /**
-    function: getError
+    function: getAccumulatedError
     @summary: get out the accumulated error of the control loop since ever
               This is equivalent to the integral of the error
     @parameter: none
