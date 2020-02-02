@@ -38,6 +38,3 @@ setSamplingTime       KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
-
-#CM	LITERAL1	Constants
-#INC	LITERAL1	Constants
